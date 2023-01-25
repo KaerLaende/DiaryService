@@ -1,57 +1,90 @@
 package Task;
 
+import TaskService.*;
+import TypeOfTask.PERSONAL;
 import TypeOfTask.Type;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Task <T extends Type>{
-    private static int idGanerator =1;
+    private static int idGanerator =0;
     private String title;
-    Class<? extends Type> type;
+    private Class<? extends Type> type;
     private int id;
-    LocalDateTime dateTime;
+
+    private LocalDate date;
+
+    private LocalDateTime dateTime;
+
+    private LocalTime time;
     private String description;
-
-
-    public Task(String title, Class<? extends Type> type,  LocalDateTime dateTime, String description) {
-        this.title = title;
+    public void setId(int id) {
+        this.id = id;
+    }
+    public Task(String title, Class<? extends Type> type, LocalDate date, LocalTime time, String description) {
+        setTitle(title);
         this.type = type;
         this.id = idGanerator++;
-        this.dateTime = dateTime;
+        setDate(date);
+        setTime(time);
         this.description = description;
+        TaskService.add(this);
     }
 
     @Override
     public String toString() {
-        return type+" | Задача: " + title + " | "+ dateTime+"|"+"\n"+
+        return (type.equals(PERSONAL.class)?"ЛИЧНОЕ":"РАБОЧЕЕ")+" | Событие: " + title + " | "+ date+" "+time+"|"+"\n"+
                 ">>>"+description+"<<<";  }
 
-    //==========================Методы Getter & Setter=====================================
 
+
+
+
+    //==========================Методы Getter & Setter=====================================
 
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public int getIdGanerator() {
-        return idGanerator;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public void setIdGanerator(int idGanerator) {
-        this.idGanerator = idGanerator;
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        if (date == null){
+            this.date= LocalDate.now();
+        }else {
+        this.date = date;}
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        if (time == null){
+            this.time= LocalTime.now();
+        }else {
+        this.time = time;}
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTitle(String title) throws IncorrectArgumentException {
+        if (title != null && !title.isEmpty()&&!title.isBlank()) {
+            this.title = title;
+        } else {
+            throw new IncorrectArgumentException();
+        }
     }
 
     public Class<? extends Type> getType() {
@@ -59,23 +92,23 @@ public class Task <T extends Type>{
     }
 
     public void setType(Class<? extends Type> type) {
-        this.type = type;
+     this.type=type;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String description) throws IncorrectArgumentException {
+        if (description == null || description.isEmpty() || description.isBlank()){
+            throw new IncorrectArgumentException("Введите описание задачи");
+        } else {
+            this.description = description;
+        }
     }
 //======================Equals & HashCode==========================
 
@@ -85,11 +118,13 @@ public class Task <T extends Type>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return idGanerator == task.idGanerator && id == task.id && title.equals(task.title) && type.equals(task.type) && dateTime.equals(task.dateTime) && Objects.equals(description, task.description);
+        return  id == task.id && title.equals(task.title) && type.equals(task.type) && date.equals(task.date) && Objects.equals(description, task.description)&&time.equals(task.time) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idGanerator, title, type, id, dateTime, description);
+        return Objects.hash(title, type, id, date,time, description);
     }
+
+
 }
