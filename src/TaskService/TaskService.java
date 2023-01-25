@@ -10,7 +10,7 @@ import java.util.*;
 import static javax.swing.UIManager.get;
 
 public class TaskService {
-    private static Map<Integer, Task> taskMap = new HashMap<>();
+    private static Map<Integer, Task> taskMap = new LinkedHashMap<Integer, Task>();
     private static ArrayList<Task> removedTasks;
 
     public static Map<Integer, Task> getTaskMap() {
