@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Task <T extends Type>{
+public class Task <T extends Type> implements Cloneable{
     private static int idGanerator =0;
     private String title;
     private Class<? extends Type> type;
@@ -32,6 +32,7 @@ public class Task <T extends Type>{
         setTime(time);
         this.description = description;
         TaskService.add(this);
+
     }
 
     @Override
@@ -126,5 +127,8 @@ public class Task <T extends Type>{
         return Objects.hash(title, type, id, date,time, description);
     }
 
-
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

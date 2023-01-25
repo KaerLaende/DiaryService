@@ -1,5 +1,6 @@
 package Task;
 
+import TaskService.TaskService;
 import TypeOfTask.Type;
 
 import java.time.LocalDate;
@@ -11,6 +12,21 @@ public class WeeklyTask extends Task {
 
     public WeeklyTask(String title, Class type,  LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
+        for (int i = 1; i < 3; i++) {
+            TaskService.add(cloneTask(this,i));
+        }
+    }
+    public static WeeklyTask cloneTask(Task task, int i) {
+        WeeklyTask newTask= null;
+        try {
+            newTask = (WeeklyTask) task.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+        newTask.setDate(task.getDate().plusWeeks(i));
+        newTask.setId(3000+i);
+        return newTask;
+
     }
     public LocalDate getNextDay(Task t) {
         return t.getDate().plusWeeks(1);
