@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class YearlyTask<T extends Type> extends Task {
+public class YearlyTask extends Task {
 
-    public YearlyTask(String title, Class type, LocalDate date, LocalTime time, String description) {
+    public YearlyTask(String title, Type type, LocalDate date, LocalTime time, String description) {
         super(title, type,  date, time, description);
 
         for (int i = 1; i < 100; i++) {// простите рука не поднялась изменить количество повторов на меньшее...

@@ -1,16 +1,17 @@
 package TypeOfTask;
 
-public class Type implements Cloneable {
-
-
-    public void values(){}
-    public void valuesOf(String s){
-        System.out.println(s);
+public enum Type {
+    WORK("Рабочая"),
+    PERSONAL("Личная");
+    private final String translate;
+    Type(String translate){
+        this.translate = translate;
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public String toString() {
+        return translate;
     }
+
 }
 

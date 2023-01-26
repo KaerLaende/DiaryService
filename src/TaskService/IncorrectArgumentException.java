@@ -1,6 +1,6 @@
 package TaskService;
 
-public class IncorrectArgumentException extends RuntimeException{
+public class IncorrectArgumentException extends Exception{
     public IncorrectArgumentException() {
     }
 

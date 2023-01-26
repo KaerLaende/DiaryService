@@ -10,7 +10,7 @@ import java.time.temporal.TemporalAdjusters;
 
 public class WeeklyTask extends Task {
 
-    public WeeklyTask(String title, Class type,  LocalDate date, LocalTime time, String description) {
+    public WeeklyTask(String title, Type type,  LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
         for (int i = 1; i < 3; i++) {
             TaskService.add(cloneTask(this,i));

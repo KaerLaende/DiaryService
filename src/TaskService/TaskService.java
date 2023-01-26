@@ -11,16 +11,16 @@ import static javax.swing.UIManager.get;
 
 public class TaskService {
     private static Map<Integer, Task> taskMap = new LinkedHashMap<Integer, Task>();
-    private static ArrayList<Task> removedTasks;
+    private static List<Task> removedTasks;
 
     public static Map<Integer, Task> getTaskMap() {
         return taskMap;
     }
 
-    public static void getRemovedTasks() {
+    public static void printRemovedTasks() {
         System.out.println(removedTasks);
     }
-    public static Task createTask(String title, Class<? extends Type> type, LocalDate date, LocalTime time, String description, int repeatType) {
+    public static Task createTask(String title, Type type, LocalDate date, LocalTime time, String description, int repeatType) {
         switch (repeatType) {
             case 1:
                 return new DailyTask(title,type,date, time, description);
@@ -47,16 +47,13 @@ public class TaskService {
     }
     public static void removeTask(int id) throws TaskNotFoundException{
         if (taskMap.containsKey(id)) {
-               removedTasks.add(taskMap.remove(id));//здесь ошибка!? Не могу передать taskMap.getValue(get(id))?
-               taskMap.remove(id);
+               removedTasks.add(taskMap.remove(id));
             } else {
                 throw new TaskNotFoundException();
             }
         }
     public static void getAllByDate(LocalDate ld) {
         taskMap.forEach((a,b)-> System.out.print((Objects.equals(b.getDate(), ld)?b:"")));
-    // несколько часов писал этот метод, не смог сам разобраться как это сделать если..
-    // ..у нас LocalDateTime в переменной Задачи, а нас просят здесь указать LocalDate?
     }
 
 }

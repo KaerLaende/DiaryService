@@ -7,10 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class DailyTask<T extends Type> extends Task {
+public class DailyTask extends Task {
 
 
-    public DailyTask(String title, Class type, LocalDate date, LocalTime time, String description) {
+    public DailyTask(String title, Type type, LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
         for (int i = 1; i < 3; i++) {
             TaskService.add(cloneTask(this,i));

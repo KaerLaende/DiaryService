@@ -1,7 +1,6 @@
 package Task;
 
 import TaskService.*;
-import TypeOfTask.PERSONAL;
 import TypeOfTask.Type;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import java.util.Objects;
 public class Task <T extends Type> implements Cloneable{
     private static int idGanerator =0;
     private String title;
-    private Class<? extends Type> type;
+    private final Type type;
     private int id;
 
     private LocalDate date;
@@ -24,8 +23,12 @@ public class Task <T extends Type> implements Cloneable{
     public void setId(int id) {
         this.id = id;
     }
-    public Task(String title, Class<? extends Type> type, LocalDate date, LocalTime time, String description) {
-        setTitle(title);
+    public Task(String title, Type type, LocalDate date, LocalTime time, String description) {
+        try {
+            setTitle(title);
+        } catch (IncorrectArgumentException e) {
+            throw new RuntimeException(e);
+        }
         this.type = type;
         this.id = idGanerator++;
         setDate(date);
@@ -37,7 +40,7 @@ public class Task <T extends Type> implements Cloneable{
 
     @Override
     public String toString() {
-        return (type.equals(PERSONAL.class)?"ЛИЧНОЕ":"РАБОЧЕЕ")+" | Событие: " + title + " | "+ date+" "+time+"|"+"\n"+
+        return getId()+(type.equals(Type.PERSONAL)?"ЛИЧНОЕ":"РАБОЧЕЕ")+" | Событие: " + title + " | "+ date+" "+time+"|"+"\n"+
                 ">>>"+description+"<<<";  }
 
 
@@ -88,12 +91,8 @@ public class Task <T extends Type> implements Cloneable{
         }
     }
 
-    public Class<? extends Type> getType() {
+    public Type getType() {
         return type;
-    }
-
-    public void setType(Class<? extends Type> type) {
-     this.type=type;
     }
 
     public int getId() {

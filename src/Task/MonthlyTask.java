@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 public class MonthlyTask extends Task{
 
-    public MonthlyTask(String title, Class type,  LocalDate date, LocalTime time, String description) {
+    public MonthlyTask(String title, Type type,  LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
         for (int i = 1; i < 2; i++) {
             TaskService.add(cloneTask(this,i));

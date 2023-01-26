@@ -1,6 +1,6 @@
 package TaskService;
 
-public class TaskNotFoundException extends RuntimeException{
+public class TaskNotFoundException extends Exception{
     @Override
     public String toString() {
         return "Внимание! Событие не найдено!";

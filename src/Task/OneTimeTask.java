@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class OneTimeTask<T extends Type> extends Task{
+public class OneTimeTask extends Task{
 
-    public OneTimeTask(String title, Class type,  LocalDate date, LocalTime time, String description) {
+    public OneTimeTask(String title, Type type,  LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
     }
 

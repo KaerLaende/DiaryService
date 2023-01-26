@@ -2,28 +2,25 @@ import Task.DailyTask;
 import Task.*;
 import Task.YearlyTask;
 import TaskService.*;
-import TypeOfTask.PERSONAL;
 import TypeOfTask.Type;
-import TypeOfTask.WORK;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     public static void main(String[] args) {
 
       // Вводные данные через переменные (по умолчанию)
-        Task yearlyTask = new YearlyTask("МОЙ Д.Р", PERSONAL.class, (LocalDate.of(2023, 3, 24)),(LocalTime.of(6, 30)),"Мой День Рождения!");
-        Task weeklyTask = new WeeklyTask("Субботник", PERSONAL.class,(LocalDate.of(2023,1,28)),(LocalTime.now()),"Делаем генеральную уборку");
-        Task monthlyTask = new MonthlyTask("Выезд на природу", PERSONAL.class,(LocalDate.of(2023,1,28)),(LocalTime.now()),"провести время на природе");
-        Task dailyTask = new DailyTask("Учи Java", WORK.class,(LocalDate.of(2023,1,28)),(LocalTime.of(9, 0)),"садись учится программировать!");
-        Task dailyTask1 = new DailyTask("Читай книги по Java", WORK.class,(LocalDate.of(2023,1,28)),(LocalTime.of(9, 0)),"садись читать!");
+        Task yearlyTask = new YearlyTask("МОЙ Д.Р", Type.PERSONAL, (LocalDate.of(2023, 3, 24)),(LocalTime.of(6, 30)),"Мой День Рождения!");
+        Task weeklyTask = new WeeklyTask("Субботник", Type.PERSONAL,(LocalDate.of(2023,1,28)),(LocalTime.now()),"Делаем генеральную уборку");
+        Task monthlyTask = new MonthlyTask("Выезд на природу", Type.PERSONAL,(LocalDate.of(2023,1,28)),(LocalTime.now()),"провести время на природе");
+        Task dailyTask = new DailyTask("Учи Java", Type.PERSONAL,(LocalDate.of(2023,1,28)),(LocalTime.of(9, 0)),"садись учится программировать!");
+        Task dailyTask1 = new DailyTask("Читай книги по Java", Type.PERSONAL,(LocalDate.of(2023,1,28)),(LocalTime.of(9, 0)),"садись читать!");
         System.out.println("Текущие события:");
         System.out.println(TaskService.getTaskMap());
       // Проверка сравнения дат:  System.out.println((Objects.equals(yearlyTask.getDate(), LocalDate.of(2023, 2, 24))?"найдено":"не найдено"));
@@ -70,7 +67,7 @@ public class Main {
             String title = getTitle(scanner);
             String description = getDescription(scanner);
             int taskType = getTaskType(scanner);
-            Class<? extends Type> type = taskType == 1 ? WORK.class : PERSONAL.class;
+            Type type = taskType == 1 ? Type.WORK : Type.PERSONAL;
             int repeatType = getRepeatType(scanner);
             LocalDate date = getDate(scanner);
             LocalTime time = getLocalTime(scanner);
@@ -97,9 +94,13 @@ public class Main {
     }
 
     private static void printAllTasksForDay(Scanner scanner) {
-        System.out.print("Введите дату для получения событий и задач в формате ггг-мм-дд: ");
+        System.out.print("Введите дату для получения событий и задач в формате гггг-мм-дд: ");
         String date = scanner.next();
-        LocalDate localDate = LocalDate.parse(date, dateFormatter);
+        if (!chekDate(date)) {
+            printAllTasksForDay(scanner);
+            return;
+        }
+        LocalDate localDate = LocalDate.parse(date, DATE_FORMATTER);
         TaskService.getAllByDate(localDate);
 
     }
@@ -107,7 +108,7 @@ public class Main {
 
     private static void printAllDeletedTasks(){
         System.out.println("Завершенные события:");
-        TaskService.getRemovedTasks();
+        TaskService.printRemovedTasks();
     }
 
     private static void updateTask(Scanner scanner){
@@ -193,4 +194,17 @@ public class Main {
     private static void printMenu() {
         System.out.println("1. Создать новое событие | 2. Удалить событие | 3. Получить событие на указанный день | 4. Получить все удалённые задачи/события | 5. Изменить название и описание существующей задачи | 6. Получить все события на выбранную дату. | 0. Выход");
     }
+
+    private static boolean chekDate(String date) {
+        boolean chek = false;
+        try {
+            LocalDate.parse(date, DATE_FORMATTER);
+            chek = true;
+        } catch (Exception e) {
+            System.out.println("Не правильный формат даты!");
+        }
+        return chek;
+    }
+
+
 }
