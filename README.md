@@ -1,6 +1,6 @@
 
 # Ежедневник "DairyService" на Java
-![img_2.png](img_2.png)
+![img_2.png](src/img_2.png)
 
 ---
 ### Разработчик
