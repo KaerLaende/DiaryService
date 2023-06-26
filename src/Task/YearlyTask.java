@@ -12,7 +12,7 @@ public class YearlyTask extends Task {
     public YearlyTask(String title, Type type, LocalDate date, LocalTime time, String description) {
         super(title, type,  date, time, description);
 
-        for (int i = 1; i < 100; i++) {// простите рука не поднялась изменить количество повторов на меньшее...
+        for (int i = 1; i <= 10; i++) {// простите рука не поднялась изменить количество повторов на меньшее...
             TaskService.add(cloneTask(this,i));
         }
     }

@@ -11,7 +11,7 @@ public class MonthlyTask extends Task{
 
     public MonthlyTask(String title, Type type,  LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i <= 12; i++) {
             TaskService.add(cloneTask(this,i));
         }
     }

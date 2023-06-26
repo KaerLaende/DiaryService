@@ -12,7 +12,7 @@ public class DailyTask extends Task {
 
     public DailyTask(String title, Type type, LocalDate date, LocalTime time, String description) {
         super(title, type, date, time, description);
-        for (int i = 1; i < 3; i++) {
+        for (int i = 1; i <=30; i++) {
             TaskService.add(cloneTask(this,i));
         }
     }
